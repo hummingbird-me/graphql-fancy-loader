@@ -6,7 +6,7 @@ require 'lib/graphql/fancy_loader/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'graphql-fancy_loader'
-  spec.version       = Graphql::FancyLoader::VERSION
+  spec.version       = GraphQL::FancyLoader::VERSION
   spec.authors       = %w[Toyhammered NuckChorris]
   spec.email         = ['help@kitsu.io']
 

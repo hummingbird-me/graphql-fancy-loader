@@ -1,6 +1,6 @@
-require "graphql/fancy_loader/version"
+require 'graphql/fancy_loader/version'
 
-module Graphql
+module GraphQL
   module FancyLoader
     class Error < StandardError; end
     # Your code goes here...
