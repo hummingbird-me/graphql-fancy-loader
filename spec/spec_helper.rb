@@ -1,4 +1,13 @@
+# frozen_string_literal: true
+
 require 'bundler/setup'
+require 'simplecov'
+SimpleCov.start do
+  add_filter '/spec/'
+  add_filter 'lib/strait/version'
+  track_files 'lib/**/*.rb'
+end
+
 require 'graphql/fancy_loader'
 
 RSpec.configure do |config|
