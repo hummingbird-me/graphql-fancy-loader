@@ -42,6 +42,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'timecop', '~> 0.9'
   # Rails specific stuff
   spec.add_development_dependency 'bootsnap'
+  spec.add_development_dependency 'database_cleaner'
+  spec.add_development_dependency 'factory_bot_rails'
   spec.add_development_dependency 'listen'
   spec.add_development_dependency 'pg'
   spec.add_development_dependency 'rails', '~> 6.1'
