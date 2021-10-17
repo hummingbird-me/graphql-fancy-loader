@@ -12,6 +12,10 @@ require File.expand_path('../spec/dummy/config/environment.rb', __dir__)
 ENV['RAILS_ROOT'] ||= File.dirname(__FILE__) + '../../../spec/dummy'
 
 require 'rspec/rails'
+# Require supporting ruby files in spec/support
+# Do not end their names in _spec, or it'll bug out
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
 # require 'graphql-fancy-loader'
 
 RSpec.configure do |config|
@@ -24,8 +28,6 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
-
-  config.include FactoryBot::Syntax::Methods
 end
 
 ActiveRecord::Migration.maintain_test_schema!

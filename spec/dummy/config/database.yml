@@ -29,8 +29,8 @@ default: &default
 
 development:
   <<: *default
-  database: dummy_kitsu_development
+  database: dummy_grapql_fancy_loader
 
 test:
   <<: *default
-  database: dummy_kitsu_test
+  database: dummy_graphql_fancy_loader_test
