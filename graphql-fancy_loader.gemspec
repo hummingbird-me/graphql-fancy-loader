@@ -40,4 +40,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'simplecov', '~> 0.17'
   spec.add_development_dependency 'timecop', '~> 0.9'
+  # Rails specific stuff
+  spec.add_development_dependency 'bootsnap'
+  spec.add_development_dependency 'listen'
+  spec.add_development_dependency 'pg'
+  spec.add_development_dependency 'rails', '~> 6.1'
+  spec.add_development_dependency 'rspec-rails'
 end

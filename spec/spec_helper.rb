@@ -8,7 +8,11 @@ SimpleCov.start do
   track_files 'lib/**/*.rb'
 end
 
-require 'graphql/fancy_loader'
+require File.expand_path('../spec/dummy/config/environment.rb', __dir__)
+ENV['RAILS_ROOT'] ||= File.dirname(__FILE__) + '../../../spec/dummy'
+
+require 'rspec/rails'
+# require 'graphql-fancy-loader'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -21,3 +25,12 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+ActiveRecord::Migration.maintain_test_schema!
+
+# set up db
+# be sure to update the schema if required by doing
+# - cd spec/dummy
+# - rake db:schema:load
+ActiveRecord::Schema.verbose = false
+load './spec/dummy/db/schema.rb' # db agnostic
