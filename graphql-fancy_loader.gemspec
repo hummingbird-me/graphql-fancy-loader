@@ -2,20 +2,22 @@
 
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
 require 'graphql/fancy_loader/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'graphql-fancy_loader'
   spec.version       = GraphQL::FancyLoader::VERSION
-  spec.authors       = %w[Toyhammered NuckChorris]
-  spec.email         = ['help@kitsu.io']
+  spec.authors       = ['Toyhammered', 'Emma Lejeck']
+  spec.email         = ['nuck@kitsu.io']
 
   spec.summary       = ''
   spec.description   = ''
-  spec.homepage      = ''
+  spec.homepage      = 'https://github.com/hummingbird-me/grahpql-fancy-loader'
   spec.license       = 'Apache-2.0'
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.4.0')
 
+  spec.metadata['homepage_uri'] = spec.homepage
+  spec.metadata['source_code_uri'] = 'https://github.com/hummingbird-me/grahpql-fancy-loader'
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 
   # Specify which files should be added to the gem when it is released.
@@ -27,10 +29,23 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
+  spec.add_runtime_dependency 'activesupport'
   spec.add_runtime_dependency 'graphql', '>= 1.3', '< 2'
   spec.add_runtime_dependency 'graphql-batch', '>= 0.4.3', '< 1'
+  spec.add_runtime_dependency 'oj' # Blazing-fast JSON parsing
 
+  spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'pry-byebug'
   spec.add_development_dependency 'rake', '>= 12.3.3'
   spec.add_development_dependency 'rspec', '~> 3.0'
+  spec.add_development_dependency 'simplecov', '~> 0.17'
+  spec.add_development_dependency 'timecop', '~> 0.9'
+  # Rails specific stuff
+  spec.add_development_dependency 'bootsnap'
+  spec.add_development_dependency 'database_cleaner'
+  spec.add_development_dependency 'factory_bot_rails'
+  spec.add_development_dependency 'listen'
+  spec.add_development_dependency 'pg'
+  spec.add_development_dependency 'rails', '~> 6.1'
+  spec.add_development_dependency 'rspec-rails'
 end
