@@ -5,10 +5,10 @@ RSpec.describe GraphQL::FancyLoader::DSL do
     it 'should update the model attribute on the class' do
       klass = Class.new do
         include GraphQL::FancyLoader::DSL
-        from Anime
+        from User
       end
 
-      expect(klass.model).to eq(Anime)
+      expect(klass.model).to eq(User)
     end
   end
 
@@ -17,13 +17,13 @@ RSpec.describe GraphQL::FancyLoader::DSL do
       it 'should add a sort definition with no transform and default column' do
         klass = Class.new do
           include GraphQL::FancyLoader::DSL
-          from Anime
-          sort :episode_count
+          from Post
+          sort :created_at
         end
 
-        defn = klass.sorts[:episode_count]
+        defn = klass.sorts[:created_at]
         expect(defn[:transform]).to eq(nil)
-        expect(defn[:column].call).to eq(Anime.arel_table[:episode_count])
+        expect(defn[:column].call).to eq(Post.arel_table[:created_at])
       end
     end
 
@@ -32,11 +32,11 @@ RSpec.describe GraphQL::FancyLoader::DSL do
         transform = ->(arel) { arel }
         klass = Class.new do
           include GraphQL::FancyLoader::DSL
-          from Anime
-          sort :episode_count, transform: transform
+          from Post
+          sort :created_at, transform: transform
         end
 
-        defn = klass.sorts[:episode_count]
+        defn = klass.sorts[:created_at]
         expect(defn[:transform]).to eq(transform)
         expect(defn[:transform]).not_to be_nil
       end
@@ -46,12 +46,12 @@ RSpec.describe GraphQL::FancyLoader::DSL do
       it 'should add a sort definition with the column proc overridden' do
         klass = Class.new do
           include GraphQL::FancyLoader::DSL
-          from Anime
-          sort :newest, on: -> { Anime.arel_table[:created_at] }
+          from Post
+          sort :newest, on: -> { Post.arel_table[:created_at] }
         end
 
         defn = klass.sorts[:newest]
-        expect(defn[:column].call).to eq(Anime.arel_table[:created_at])
+        expect(defn[:column].call).to eq(Post.arel_table[:created_at])
       end
     end
   end
@@ -60,7 +60,7 @@ RSpec.describe GraphQL::FancyLoader::DSL do
     it 'should update the modify_query_lambda attribute on the class' do
       klass = Class.new do
         include GraphQL::FancyLoader::DSL
-        from Anime
+        from Post
         modify_query ->(query) { query }
       end
 

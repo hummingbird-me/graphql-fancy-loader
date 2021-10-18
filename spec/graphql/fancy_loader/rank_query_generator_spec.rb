@@ -3,12 +3,12 @@
 RSpec.describe GraphQL::FancyLoader::RankQueryGenerator do
   subject { described_class.new(column: column, partition_by: partition_by, table: table) }
 
-  let(:column) { :release_order }
-  let(:partition_by) { :franchise_id }
-  let(:table) { Installment.arel_table }
+  let(:column) { :email }
+  let(:partition_by) { :user_id }
+  let(:table) { Post.arel_table }
 
   describe '#arel' do
-    let(:raw_sql) { 'ROW_NUMBER() OVER (PARTITION BY "installments"."franchise_id" ORDER BY "installments"."release_order" ASC) AS release_order_rank' } # rubocop:disable Layout/LineLength
+    let(:raw_sql) { 'ROW_NUMBER() OVER (PARTITION BY "posts"."user_id" ORDER BY "posts"."email" ASC) AS email_rank' }
 
     it 'should return a window function for a RankedModel column' do
       expect(subject.arel).to be_a(Arel::Nodes::As)
