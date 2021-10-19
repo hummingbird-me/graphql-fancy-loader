@@ -45,6 +45,8 @@ module GraphQL
 
       private
 
+      attr_reader :context
+
       # The underlying Arel table for the model
       def table
         @table ||= @model.arel_table
@@ -107,7 +109,7 @@ module GraphQL
         @subquery ||= begin
           # Apply the sort transforms and add the window function to our projection
           subquery = @sort.inject(base_query) do |arel, sort|
-            sort[:transform] ? sort[:transform].call(arel) : arel
+            sort[:transform] ? sort[:transform].call(arel, @context) : arel
           end
 
           subquery = subquery.project(row_number).project(count)

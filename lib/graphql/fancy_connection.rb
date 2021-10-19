@@ -94,7 +94,8 @@ class GraphQL::FancyConnection < GraphQL::Pagination::RelationConnection
       before: before_offset,
       after: after_offset,
       first: first,
-      last: last
+      last: last,
+      context: context
     )
   end
 end

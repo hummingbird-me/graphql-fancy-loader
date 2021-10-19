@@ -32,7 +32,7 @@ module GraphQL
     #
     # @todo There *must* be a better way to handle this
     def self.loader_key_for(*group_args, **group_kwargs)
-      [self, group_args, Oj.dump(group_kwargs)]
+      [self, group_args, Oj.dump(group_kwargs.except(:context))]
     end
 
     # Get a FancyConnection wrapping this Loader
