@@ -53,9 +53,9 @@ module GraphQL
       end
 
       # A pundit scope class to apply to our querying
-      def scope
-        @scope ||= Pundit::PolicyFinder.new(@model).scope!
-      end
+      # def scope
+      #   @scope ||= Pundit::PolicyFinder.new(@model).scope!
+      # end
 
       # A window function partition clause to apply the sort within each window
       #
@@ -101,7 +101,8 @@ module GraphQL
       def base_query
         query = @model.where(@find_by => @keys)
         query = query.where(@where) unless @where.nil?
-        scope.new(@token, query).resolve.arel
+        # scope.new(@token, query).resolve.arel
+        query.arel
       end
 
       def subquery
