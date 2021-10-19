@@ -17,7 +17,7 @@ module GraphQL
       def initialize(
         model:, find_by:, sort:, token:, keys:,
         before: nil, after: 0, first: nil, last: nil,
-        where: nil, modify_query: nil
+        where: nil, context: {}, modify_query: nil
       )
         @model = model
         @find_by = find_by
@@ -29,6 +29,7 @@ module GraphQL
         @first = first
         @last = last
         @where = where
+        @context = context
         @modify_query = modify_query
       end
 
@@ -49,9 +50,9 @@ module GraphQL
       end
 
       # A pundit scope class to apply to our querying
-      # def scope
-      #   @scope ||= Pundit::PolicyFinder.new(@model).scope!
-      # end
+      def scope
+        @scope ||= Pundit::PolicyFinder.new(@model).scope!
+      end
 
       # A window function partition clause to apply the sort within each window
       #
@@ -97,8 +98,8 @@ module GraphQL
       def base_query
         query = @model.where(@find_by => @keys)
         query = query.where(@where) unless @where.nil?
-        # scope.new(@token, query).resolve.arel
-        query.arel
+        scope.new(@token, query).resolve.arel
+        # query.arel
       end
 
       def subquery

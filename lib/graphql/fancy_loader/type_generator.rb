@@ -26,11 +26,10 @@ module GraphQL
         @sorts_option ||= begin
           enum = sorts_enum
           name = "#{@name}SortOption"
-
           Class.new(GraphQL::Schema::InputObject) do
             graphql_name name
             argument :on, enum, required: true
-            argument :direction, Types::Enum::SortDirection, required: true
+            argument :direction, GraphQL::SortDirection, required: true
           end
         end
       end
