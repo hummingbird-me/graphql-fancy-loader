@@ -12,6 +12,7 @@ module GraphQL
       # @param first [Integer] Filter for first N rows
       # @param last [Integer] Filter for last N rows
       # @param where [Hash] a filter to use when querying
+      # @param context [Context] The context of the graphql query. Can be used inside of modify_query.
       # @param modify_query [Lambda] An escape hatch to FancyLoader to allow modifying
       #  the base_query before it generates the rest of the query
       def initialize(
