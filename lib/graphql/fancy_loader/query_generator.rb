@@ -102,7 +102,6 @@ module GraphQL
         query = @model.where(@find_by => @keys)
         query = query.where(@where) unless @where.nil?
         scope.new(@token, query).resolve.arel
-        # query.arel
       end
 
       def subquery
