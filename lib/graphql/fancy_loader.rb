@@ -28,13 +28,6 @@ module GraphQL
       @sort_argument ||= GraphQL::FancyLoader::TypeGenerator.new(self).sorts_list
     end
 
-    # Override the loader key to handle arbitrarily-nested arguments.
-    #
-    # @todo There *must* be a better way to handle this
-    def self.loader_key_for(*group_args, **group_kwargs)
-      [self, group_args, Oj.dump(group_kwargs.except(:context))]
-    end
-
     # Get a FancyConnection wrapping this Loader
     def self.connection_for(args, key)
       GraphQL::FancyConnection.new(self, args.except(:context), key, **args.slice(:context))
