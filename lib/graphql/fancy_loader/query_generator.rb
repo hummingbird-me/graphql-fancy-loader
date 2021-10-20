@@ -109,7 +109,7 @@ module GraphQL
         @subquery ||= begin
           # Apply the sort transforms and add the window function to our projection
           subquery = @sort.inject(base_query) do |arel, sort|
-            sort[:transform] ? sort[:transform].call(arel, @context) : arel
+            sort[:transform] ? sort[:transform].call(arel, context) : arel
           end
 
           subquery = subquery.project(row_number).project(count)
