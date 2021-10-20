@@ -9,7 +9,6 @@ require 'graphql/batch'
 require 'active_support'
 require 'active_support/concern'
 require 'active_support/core_ext/class/attribute'
-require 'oj'
 
 require 'graphql/sort_direction'
 require 'graphql/fancy_connection'

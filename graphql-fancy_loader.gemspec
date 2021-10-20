@@ -32,7 +32,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'activesupport'
   spec.add_runtime_dependency 'graphql', '>= 1.3', '< 2'
   spec.add_runtime_dependency 'graphql-batch', '>= 0.4.3', '< 1'
-  spec.add_runtime_dependency 'oj' # Blazing-fast JSON parsing
 
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'pry-byebug'
