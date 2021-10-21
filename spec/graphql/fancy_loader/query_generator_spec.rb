@@ -31,7 +31,7 @@ RSpec.describe GraphQL::FancyLoader::QueryGenerator do
       after: 10,
       sort: [{
         column: -> { Post.arel_table[:created_at] },
-        transform: lambda { |ast|
+        transform: lambda { |ast, _context|
           users = User.arel_table
           posts = Post.arel_table
 

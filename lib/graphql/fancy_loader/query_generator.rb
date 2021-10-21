@@ -12,12 +12,13 @@ module GraphQL
       # @param first [Integer] Filter for first N rows
       # @param last [Integer] Filter for last N rows
       # @param where [Hash] a filter to use when querying
+      # @param context [Context] The context of the graphql query. Can be used inside of modify_query.
       # @param modify_query [Lambda] An escape hatch to FancyLoader to allow modifying
       #  the base_query before it generates the rest of the query
       def initialize(
         model:, find_by:, sort:, token:, keys:,
         before: nil, after: 0, first: nil, last: nil,
-        where: nil, modify_query: nil
+        where: nil, context: {}, modify_query: nil
       )
         @model = model
         @find_by = find_by
@@ -29,6 +30,7 @@ module GraphQL
         @first = first
         @last = last
         @where = where
+        @context = context
         @modify_query = modify_query
       end
 
@@ -42,6 +44,8 @@ module GraphQL
       end
 
       private
+
+      attr_reader :context
 
       # The underlying Arel table for the model
       def table
@@ -105,7 +109,7 @@ module GraphQL
         @subquery ||= begin
           # Apply the sort transforms and add the window function to our projection
           subquery = @sort.inject(base_query) do |arel, sort|
-            sort[:transform] ? sort[:transform].call(arel) : arel
+            sort[:transform] ? sort[:transform].call(arel, context) : arel
           end
 
           subquery = subquery.project(row_number).project(count)

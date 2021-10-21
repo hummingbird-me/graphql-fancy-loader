@@ -9,8 +9,9 @@ require 'graphql/batch'
 require 'active_support'
 require 'active_support/concern'
 require 'active_support/core_ext/class/attribute'
-require 'oj'
 
+require 'graphql/sort_direction'
+require 'graphql/fancy_connection'
 require 'graphql/fancy_loader/dsl'
 require 'graphql/fancy_loader/pagination_filter'
 require 'graphql/fancy_loader/query_generator'
@@ -26,16 +27,9 @@ module GraphQL
       @sort_argument ||= GraphQL::FancyLoader::TypeGenerator.new(self).sorts_list
     end
 
-    # Override the loader key to handle arbitrarily-nested arguments.
-    #
-    # @todo There *must* be a better way to handle this
-    def self.loader_key_for(*group_args, **group_kwargs)
-      [self, group_args, Oj.dump(group_kwargs)]
-    end
-
     # Get a FancyConnection wrapping this Loader
     def self.connection_for(args, key)
-      Connections::FancyConnection.new(self, args.except(:context), key, **args.slice(:context))
+      GraphQL::FancyConnection.new(self, args.except(:context), key, **args.slice(:context))
     end
 
     # Initialize a FancyLoader. This takes all the keys which are used to batch, which is a *lot* of
@@ -58,7 +52,7 @@ module GraphQL
     # @param last [Integer] Filter for last N rows
     # @param sort [Array<{:on, :direction => Symbol}>] The sorts to apply while loading
     # @param token [Doorkeeper::AccessToken] the user's access token
-    def initialize(find_by:, sort:, token:, before: nil, after: 0, first: nil, last: nil, where: nil)
+    def initialize(find_by:, sort:, token:, before: nil, after: 0, first: nil, last: nil, where: nil, context: {})
       @find_by = find_by
       @sort = sort.map(&:to_h)
       @token = token
@@ -67,6 +61,7 @@ module GraphQL
       @first = first
       @last = last
       @where = where
+      @context = context
     end
 
     # Perform the loading. Uses {GraphQL::FancyLoader::QueryGenerator} to build a query, then groups
@@ -83,6 +78,7 @@ module GraphQL
         token: @token,
         keys: keys,
         where: @where,
+        context: @context,
         modify_query: modify_query_lambda
       ).query
 

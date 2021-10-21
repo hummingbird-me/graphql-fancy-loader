@@ -6,10 +6,4 @@ RSpec.describe 'FactoryBot' do
     DatabaseCleaner.start
   end
   after(:all) { DatabaseCleaner.clean }
-
-  FactoryBot.factories.each do |factory|
-    it "#{factory.name} should pass lint" do
-      FactoryBot::Linter.new([factory]).lint!
-    end
-  end
 end
