@@ -5,7 +5,6 @@ module GraphQL
       # @param model [ActiveRecord::Model] the model to load from
       # @param find_by [Symbol, String, Array<Symbol, String>] the key or keys to find by
       # @param sort [Array<{:column, :transform, :direction => Object}>] The sorts to apply
-      # @param token [Doorkeeper::AccessToken] the user's access token
       # @param keys [Array] an array of values to find by
       # @param before [Integer] Filter by rows less than this (one-indexed)
       # @param after [Integer] Filter by rows greater than this (one-indexed)
@@ -16,14 +15,13 @@ module GraphQL
       # @param modify_query [Lambda] An escape hatch to FancyLoader to allow modifying
       #  the base_query before it generates the rest of the query
       def initialize(
-        model:, find_by:, sort:, token:, keys:,
+        model:, find_by:, sort:, keys:,
         before: nil, after: 0, first: nil, last: nil,
         where: nil, context: {}, modify_query: nil
       )
         @model = model
         @find_by = find_by
         @sort = sort
-        @token = token
         @keys = keys
         @before = before
         @after = after
@@ -51,11 +49,6 @@ module GraphQL
       def table
         @table ||= @model.arel_table
       end
-
-      # A pundit scope class to apply to our querying
-      # def scope
-      #   @scope ||= Pundit::PolicyFinder.new(@model).scope!
-      # end
 
       # A window function partition clause to apply the sort within each window
       #
@@ -101,7 +94,7 @@ module GraphQL
       def base_query
         query = @model.where(@find_by => @keys)
         query = query.where(@where) unless @where.nil?
-        # scope.new(@token, query).resolve.arel
+        query = middleware(query: query)
         query.arel
       end
 
@@ -116,6 +109,21 @@ module GraphQL
           subquery = instance_exec(subquery, &@modify_query) unless @modify_query.nil?
           subquery.as('subquery')
         end
+      end
+
+      def middleware(query:)
+        return query if GraphQL::FancyLoader.middleware.blank?
+
+        GraphQL::FancyLoader.middleware.each do |mid|
+          klass = "GraphQL::FancyLoader::Middleware::#{mid}".safe_constantize.new(
+            query: query,
+            context: context,
+            model: @model
+          )
+          query = klass.call
+        end
+
+        query
       end
     end
   end
