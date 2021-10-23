@@ -29,22 +29,22 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'activesupport'
+  spec.add_runtime_dependency 'activesupport', '~> 6.1'
   spec.add_runtime_dependency 'graphql', '>= 1.3', '< 2'
   spec.add_runtime_dependency 'graphql-batch', '>= 0.4.3', '< 1'
 
   spec.add_development_dependency 'bundler', '~> 2.0'
-  spec.add_development_dependency 'pry-byebug'
+  spec.add_development_dependency 'pry-byebug', '~> 3.9'
   spec.add_development_dependency 'rake', '>= 12.3.3'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'simplecov', '~> 0.17'
   spec.add_development_dependency 'timecop', '~> 0.9'
   # Rails specific stuff
-  spec.add_development_dependency 'bootsnap'
-  spec.add_development_dependency 'database_cleaner'
-  spec.add_development_dependency 'factory_bot_rails'
-  spec.add_development_dependency 'listen'
-  spec.add_development_dependency 'pg'
-  spec.add_development_dependency 'rails', '~> 6.1'
-  spec.add_development_dependency 'rspec-rails'
+  spec.add_development_dependency 'bootsnap', '~> 1.9'
+  spec.add_development_dependency 'database_cleaner', '~> 2.0'
+  spec.add_development_dependency 'factory_bot_rails', '~> 6.2'
+  spec.add_development_dependency 'listen', '~> 3.7'
+  spec.add_development_dependency 'pg', '~> 1.2'
+  spec.add_development_dependency 'rails', '6.1.4'
+  spec.add_development_dependency 'rspec-rails', '~> 5.0'
 end
