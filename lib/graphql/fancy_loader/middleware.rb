@@ -1,18 +1,13 @@
 module GraphQL
   class FancyLoader
     class Middleware
-      attr_reader :query, :context
+      attr_reader :key
 
-      def initialize(query:, context:, **args)
-        @query = query
-        @context = context
-
-        post_initialize(**args)
+      def initialize(key:)
+        @key = key
       end
 
-      def post_initialize(**_); end
-
-      def call; end
+      def call(**args); end
     end
   end
 end

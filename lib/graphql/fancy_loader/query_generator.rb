@@ -114,13 +114,8 @@ module GraphQL
       def middleware(query:)
         return query if GraphQL::FancyLoader.middleware.blank?
 
-        GraphQL::FancyLoader.middleware.each do |mid|
-          klass = "GraphQL::FancyLoader::Middleware::#{mid}".safe_constantize.new(
-            query: query,
-            context: context,
-            model: @model
-          )
-          query = klass.call
+        GraphQL::FancyLoader.middleware.each do |klass|
+          query = klass.call(model: @model, query: query, context: context)
         end
 
         query
