@@ -1,8 +1,12 @@
 module GraphQL
-  class FancyLoader::Middleware::PunditMiddleware < GraphQL::FancyLoader::Middleware
+  class FancyLoader::PunditMiddleware
+    def initialize(key:)
+      @key = key
+    end
+
     def call(model:, query:, context:)
       scope = ::Pundit::PolicyFinder.new(model).scope!
-      user = context[key]
+      user = context[@key]
       scope.new(user, query).resolve
     end
   end

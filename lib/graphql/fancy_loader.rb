@@ -20,8 +20,7 @@ require 'graphql/fancy_loader/query_generator'
 require 'graphql/fancy_loader/rank_query_generator'
 require 'graphql/fancy_loader/type_generator'
 # Middleware
-require 'graphql/fancy_loader/middleware'
-require 'graphql/fancy_loader/middleware/pundit_middleware'
+require 'graphql/fancy_loader/pundit_middleware'
 
 module GraphQL
   class FancyLoader < GraphQL::Batch::Loader
