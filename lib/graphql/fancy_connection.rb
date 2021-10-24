@@ -28,7 +28,8 @@ class GraphQL::FancyConnection < GraphQL::Pagination::RelationConnection
     base_nodes.then do |results|
       if results.first
         results.first.attributes['total_count']
-      else 0
+      else
+        0
       end
     end
   end
@@ -38,7 +39,8 @@ class GraphQL::FancyConnection < GraphQL::Pagination::RelationConnection
     base_nodes.then do |results|
       if results.last
         results.last.attributes['row_number'] < results.last.attributes['total_count']
-      else false
+      else
+        false
       end
     end
   end
@@ -48,7 +50,8 @@ class GraphQL::FancyConnection < GraphQL::Pagination::RelationConnection
     base_nodes.then do |results|
       if results.first
         results.first.attributes['row_number'] > 1
-      else false
+      else
+        false
       end
     end
   end
@@ -90,7 +93,6 @@ class GraphQL::FancyConnection < GraphQL::Pagination::RelationConnection
 
   def loader_args
     @args.merge(
-      token: context[:token],
       before: before_offset,
       after: after_offset,
       first: first,

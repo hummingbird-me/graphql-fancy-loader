@@ -16,7 +16,6 @@ RSpec.describe GraphQL::FancyLoader::QueryGenerator do
         column: -> { Post.arel_table[:id] },
         direction: :desc
       }],
-      token: nil,
       keys: [50]
     ).query.to_sql
 
@@ -41,7 +40,6 @@ RSpec.describe GraphQL::FancyLoader::QueryGenerator do
         },
         direction: :asc
       }],
-      token: nil,
       keys: [50]
     ).query.to_sql
 
@@ -60,7 +58,6 @@ RSpec.describe GraphQL::FancyLoader::QueryGenerator do
             column: -> { Post.arel_table[:created_at] },
             direction: :asc
           }],
-          token: nil,
           keys: [50]
         ).query.to_sql
 
@@ -80,7 +77,6 @@ RSpec.describe GraphQL::FancyLoader::QueryGenerator do
             column: -> { Post.arel_table[:id] },
             direction: :asc
           }],
-          token: nil,
           keys: [user.id]
         ).query
 
@@ -103,7 +99,6 @@ RSpec.describe GraphQL::FancyLoader::QueryGenerator do
             column: -> { Post.arel_table[:id] },
             direction: :asc
           }],
-          token: nil,
           keys: [user.id]
         ).query
 
@@ -128,7 +123,6 @@ RSpec.describe GraphQL::FancyLoader::QueryGenerator do
             column: -> { Post.arel_table[:id] },
             direction: :asc
           }],
-          token: nil,
           keys: [user.id]
         ).query
 
@@ -151,7 +145,6 @@ RSpec.describe GraphQL::FancyLoader::QueryGenerator do
             column: -> { Post.arel_table[:id] },
             direction: :asc
           }],
-          token: nil,
           keys: [user.id]
         ).query
 
@@ -175,7 +168,6 @@ RSpec.describe GraphQL::FancyLoader::QueryGenerator do
           column: -> { Post.arel_table[:id] },
           direction: :asc
         }],
-        token: nil,
         keys: [user.id]
       ).query
 
@@ -197,7 +189,6 @@ RSpec.describe GraphQL::FancyLoader::QueryGenerator do
           column: -> { Post.arel_table[:id] },
           direction: :asc
         }],
-        token: nil,
         keys: [user.id]
       ).query
 
@@ -222,7 +213,6 @@ RSpec.describe GraphQL::FancyLoader::QueryGenerator do
         column: -> { Post.arel_table[:id] },
         direction: :asc
       }],
-      token: nil,
       keys: [user.id]
     ).query
 
@@ -243,7 +233,6 @@ RSpec.describe GraphQL::FancyLoader::QueryGenerator do
         column: -> { Post.arel_table[:id] },
         direction: :desc
       }],
-      token: nil,
       keys: [50],
       modify_query: proc { |q| q.project('I am the bone of my sword') }
     ).query.to_sql
