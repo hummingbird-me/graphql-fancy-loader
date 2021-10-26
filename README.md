@@ -1,8 +1,6 @@
 # GraphQL::FancyLoader
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/graphql/fancy_loader`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+TODO: Write basic summary here
 
 ## Installation
 
@@ -22,7 +20,8 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+TODO: Write usage instructions here. 
+This will include multiple simple + more complex examples. Will also link to kitsu source for additional examples
 
 ## Development
 
@@ -32,7 +31,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/graphql-fancy_loader.
+Bug reports and pull requests are welcome on GitHub at https://github.com/hummingbird-me/graphql-fancy-loader.
 
 
 ## License
