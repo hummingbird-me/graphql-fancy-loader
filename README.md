@@ -1,6 +1,6 @@
 # GraphQL::FancyLoader
 
-TODO: Write basic summary here
+FancyLoader is used to help optimize your GraphQL queries by utilizing lazy loading in addition to allowing orders, limits, and pagination. Behind the scenes we are utilizing `GraphQL::Batch::Loader` from the [graphql-batch gem](https://github.com/Shopify/graphql-batch).
 
 ## Installation
 
@@ -18,10 +18,84 @@ Or install it yourself as:
 
     $ gem install graphql-fancy_loader
 
-## Usage
+## Basic Usage
 
-TODO: Write usage instructions here. 
-This will include multiple simple + more complex examples. Will also link to kitsu source for additional examples
+For all these examples, this is the basic structure.
+
+```
+# User
+# id, email, created_at, updated_at
+
+has_many :posts
+```
+
+```
+# Post
+# id, user_id, title, created_at, updated_at
+
+belongs_to :user
+```
+
+```
+# Post Likes (join table)
+# id, user_id, post_id, created_at, updated_at
+
+belongs_to :user
+belongs_to :post
+```
+
+```
+# graphql/loaders/posts_loader
+class Loaders::PostsLoader < GraphQL::FancyLoader
+  from Post
+  sort :created_at
+end
+```
+
+Now that you have created your loader, it is time to implement it with your graphql type(s).
+
+```
+# graphql/types/user.rb
+
+class Types::User < Types::BaseObject
+  field :posts, Types::Post.connection_type, null: false do
+    description 'All posts this user has made.'
+    argument :sort, Loaders::PostsLoader.sort_argument, required: false  # This argument type is auto-created
+  end
+
+  def posts(sort: [{ on: :created_at, direction: :desc }])
+    Loaders::PostsLoader.connection_for({
+      find_by: :user_id,
+      sort: sort
+    }, object.id)
+  end
+end
+```
+
+This is how you would test your loader returns what is expected.
+
+```
+RSpec.describe Loaders::PostsLoader do
+  let!(:user) { create(:user) }
+  let!(:posts) { create_list(:post, 10, user: user) }
+  let(:context) { GraphQL::Query::Context.new(query: OpenStruct.new(schema: <your-schema-name>), values: nil, object: nil) }
+  let(:sort) { [{ on: :created_at, direction: :desc }] }
+
+  it 'loads all the posts for a user' do
+    posts = GraphQL::Batch.batch do
+      described_class.connection_for({
+        find_by: :user_id,
+        sort: sort,
+        context: context
+      }, user.id).nodes
+    end
+
+    expect(posts.count).to eq(user.posts.count)
+  end
+end
+```
+
+## Advanced Examples
 
 ## Development
 
@@ -32,7 +106,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/hummingbird-me/graphql-fancy-loader.
-
 
 ## License
 
