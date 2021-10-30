@@ -20,8 +20,6 @@ Or install it yourself as:
 
 ## Basic Usage
 
-For all these examples, this is the basic structure.
-
 ```
 # User
 # id, email, created_at, updated_at
@@ -95,7 +93,75 @@ RSpec.describe Loaders::PostsLoader do
 end
 ```
 
+## Authorization
+
+Middleware that will automatically get applied to each query automatically.
+This can also be implemented with custom authorization if you want. It will be required to return valid AST (Arel).
+
+### Pundit
+
+You can easily integrate your Loaders with pundit. This requires you are using Pundit scopes.
+
+```
+# initializers/graphql_fancy_loader
+GraphQL::FancyLoader.configure do |config|
+  config.middleware = [GraphQL::FancyLoader::PunditMiddleware.new(key: :token)]
+end
+```
+
+### Cancancan (Not Implemented)
+
 ## Advanced Examples
+
+There are a few additional features that we offer to help make these loaders more customizeable. The first is a `modify_query` which can be used to add any additional logic (joins, custom fields, etc...). We have also included an out of the box [RankQueryGenerator](https://github.com/hummingbird-me/graphql-fancy-loader/blob/main/lib/graphql/fancy_loader/rank_query_generator.rb) to help `ranking` (out of the box uses the [ranked-model gem](https://github.com/brendon/ranked-model) format). These queries have full access to any `instance_variables` inside the [GraphQL::FancyLoader::QueryGenerator](https://github.com/hummingbird-me/graphql-fancy-loader/blob/main/lib/graphql/fancy_loader/query_generator.rb#L4) (which includes context)
+
+```
+class Loaders::InstallmentsLoader < Loaders::FancyLoader
+  from Installment
+  modify_query ->(query) {
+    release_rank = Loaders::FancyLoader::RankQueryGenerator.new(
+      column: :release_order,
+      partition_by: @find_by,
+      table: table
+    ).arel
+    alternative_rank = Loaders::FancyLoader::RankQueryGenerator.new(
+      column: :alternative_order,
+      partition_by: @find_by,
+      table: table
+    ).arel
+
+    query.project(release_rank).project(alternative_rank)
+  }
+
+  sort :release_order
+  sort :alternative_order
+end
+
+```
+
+You can also modify sorts by supplying procs for the `transform:` and `on:` named parameters.
+
+```
+class Loaders::PostLikesLoader < Loaders::FancyLoader
+  from PostLike
+  sort :following,
+    transform: ->(ast, context) {
+      follows = Follow.arel_table
+      likes = PostLike.arel_table
+
+      condition = follows[:followed_id].eq(likes[:user_id]).and(
+        follows[:follower_id].eq(context[:current_user].id)
+      )
+
+      ast.join(follows, Arel::Nodes::OuterJoin).on(condition)
+    },
+    on: -> { Follow.arel_table[:id] }
+
+  sort :created_at
+end
+```
+
+Rank Query
 
 ## Development
 
