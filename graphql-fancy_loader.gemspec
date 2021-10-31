@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'activesupport', '~> 6.1'
+  spec.add_runtime_dependency 'activesupport', '>= 5.0', '< 6.2'
   spec.add_runtime_dependency 'graphql', '>= 1.3', '< 2'
   spec.add_runtime_dependency 'graphql-batch', '>= 0.4.3', '< 1'
 
