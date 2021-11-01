@@ -5,10 +5,12 @@ module GraphQL
       # @param column [Symbol] The table column to rank by
       # @param partition_by [Symbol] The find_by key for the table
       # @param table [Arel::Table]
-      def initialize(column:, partition_by:, table:)
+      # @param name_suffix [String] The suffix the be used for the column name
+      def initialize(column:, partition_by:, table:, name_suffix: '_rank')
         @column = column
         @partition_by = partition_by
         @table = table
+        @name_suffix = name_suffix
       end
 
       # Our actual window function.
@@ -21,7 +23,9 @@ module GraphQL
       private
 
       def name
-        "#{@column}_rank"
+        return @column if @name_suffix.blank?
+
+        "#{@column}#{@name_suffix}"
       end
 
       def partition
