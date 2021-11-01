@@ -119,12 +119,12 @@ There are a few additional features that we offer to help make these loaders mor
 class Loaders::InstallmentsLoader < Loaders::FancyLoader
   from Installment
   modify_query ->(query) {
-    release_rank = Loaders::FancyLoader::RankQueryGenerator.new(
+    release_rank = GraphQL::FancyLoader::RankQueryGenerator.new(
       column: :release_order,
       partition_by: @find_by,
       table: table
     ).arel
-    alternative_rank = Loaders::FancyLoader::RankQueryGenerator.new(
+    alternative_rank = GraphQL::FancyLoader::RankQueryGenerator.new(
       column: :alternative_order,
       partition_by: @find_by,
       table: table
