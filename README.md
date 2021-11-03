@@ -38,7 +38,7 @@ load a given model, and what sorts to expose on it.
 
 For example, given the following schema:
 
-![schema diagram][./docs/sample-schema.svg]
+![schema diagram](./docs/sample-schema.svg)
 
 You might create a PostsLoader like this:
 
