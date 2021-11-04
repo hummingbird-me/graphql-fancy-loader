@@ -1,0 +1,27 @@
+name: FancyLoader Test Suite
+
+on:
+  push:
+    branches:
+      - releasing
+
+jobs:
+  release:
+    name: Relase to Rubygems
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v1
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+          bundler-cache: true
+
+      - name: Publish Gem on Rubygems
+        run: bundle exec rake release
+
+      - name: Create a Github Release
+        run: gh release create $(ruby -r './lib/graphql/fancy_loader/version' -e "puts GraphQL::FancyLoader::VERSION") --target releasing
