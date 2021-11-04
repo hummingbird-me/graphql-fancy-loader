@@ -1,4 +1,4 @@
-name: FancyLoader Test Suite
+name: Release FancyLoader gem
 
 on:
   push:
