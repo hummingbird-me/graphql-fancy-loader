@@ -49,12 +49,6 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
 
-      - name: Set up Test Environment
-        if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
-        env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/fancyloader_test
-        run: bundle exec rake db:create db:schema:load
-
       - name: Run Tests
         if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
         env:
