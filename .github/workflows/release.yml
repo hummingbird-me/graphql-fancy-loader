@@ -20,6 +20,11 @@ jobs:
           ruby-version: 2.7
           bundler-cache: true
 
+      - name: Configure Git
+        run: |
+          git config user.name "Senko-san"
+          git config user.email "developers@kitsu.io"
+
       - name: Authenticate with Rubygems
         run: |
           echo "${SENKO_SAN_RUBYGEMS_CREDENTIALS}" > $HOME/.gem/credentials
