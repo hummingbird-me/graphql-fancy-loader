@@ -3,11 +3,9 @@
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require 'graphql/fancy_loader/version'
-
 Gem::Specification.new do |spec|
   spec.name          = 'graphql-fancy_loader'
-  spec.version       = GraphQL::FancyLoader::VERSION
+  spec.version       = '0.1.3'
   spec.authors       = ['Toyhammered', 'Emma Lejeck']
   spec.email         = ['nuck@kitsu.io']
 
