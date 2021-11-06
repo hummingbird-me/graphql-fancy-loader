@@ -11,13 +11,13 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Toyhammered', 'Emma Lejeck']
   spec.email         = ['nuck@kitsu.io']
 
-  spec.summary       = ''
-  spec.description   = ''
-  spec.homepage      = 'https://github.com/hummingbird-me/grahpql-fancy-loader'
+  spec.summary       = 'FancyLoader efficiently batches queries using postgres window functions to allow advanced features such as orders, limits, pagination, and authorization scoping.'
+  spec.description   = 'FancyLoader (built on top of the graphql-batch gem) efficiently batches queries using postgres window functions to allow advanced features such as orders, limits, pagination, and authorization scoping. Built on top of Arel, FancyLoader is highly extensible and capable of handling complex sorts (including sorting based on a join) with minimal effort and high performance.'
+  spec.homepage      = 'https://github.com/hummingbird-me/graphql-fancy-loader'
   spec.license       = 'Apache-2.0'
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://github.com/hummingbird-me/grahpql-fancy-loader'
+  spec.metadata['source_code_uri'] = 'https://github.com/hummingbird-me/graphql-fancy-loader'
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 
   # Specify which files should be added to the gem when it is released.
