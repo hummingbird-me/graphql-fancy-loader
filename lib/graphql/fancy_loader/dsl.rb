@@ -1,5 +1,5 @@
 module GraphQL
-  class FancyLoader
+  class FancyLoader < GraphQL::Batch::Loader
     module DSL
       extend ActiveSupport::Concern
 
