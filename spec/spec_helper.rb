@@ -4,7 +4,6 @@ require 'bundler/setup'
 require 'simplecov'
 SimpleCov.start do
   add_filter '/spec/'
-  add_filter 'lib/strait/version'
   track_files 'lib/**/*.rb'
 end
 
