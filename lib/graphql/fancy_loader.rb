@@ -11,16 +11,7 @@ require 'active_support/concern'
 require 'active_support/configurable'
 require 'active_support/core_ext/class/attribute'
 
-require 'graphql/sort_direction'
-require 'graphql/fancy_connection'
-# FancyLoader
 require 'graphql/fancy_loader/dsl'
-require 'graphql/fancy_loader/pagination_filter'
-require 'graphql/fancy_loader/query_generator'
-require 'graphql/fancy_loader/rank_query_generator'
-require 'graphql/fancy_loader/type_generator'
-# Middleware
-require 'graphql/fancy_loader/pundit_middleware'
 
 module GraphQL
   class FancyLoader < GraphQL::Batch::Loader
@@ -101,3 +92,14 @@ module GraphQL
     end
   end
 end
+
+require 'graphql/sort_direction'
+require 'graphql/fancy_connection'
+# FancyLoader
+require 'graphql/fancy_loader/pagination_filter'
+require 'graphql/fancy_loader/query_generator'
+require 'graphql/fancy_loader/rank_query_generator'
+require 'graphql/fancy_loader/type_generator'
+require 'graphql/fancy_loader/version'
+# Middleware
+require 'graphql/fancy_loader/pundit_middleware'
