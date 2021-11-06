@@ -34,3 +34,5 @@ jobs:
 
       - name: Create a Github Release
         run: gh release create $(ruby -r './lib/graphql/fancy_loader/version' -e "puts GraphQL::FancyLoader::VERSION") --target releasing
+        env:
+          GITHUB_TOKEN: ${{ secrets.SENKO_SAN_KEY }}
