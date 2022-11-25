@@ -6,6 +6,6 @@ module GraphQL
   rescue LoadError
     BasicObject
   end)
-    VERSION = '0.1.5'.freeze # .2
+    VERSION = '0.1.5'.freeze # .3
   end
 end
