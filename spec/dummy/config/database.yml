@@ -6,18 +6,6 @@ default: &default
 <% if ENV.include?('DATABASE_URL') %>
   url: <%= ENV.fetch('DATABASE_URL') %>
 <% end %>
-<% if $0.include?('sidekiq') %>
-  reaping_frequency: 10
-  checkout_timeout: 5
-  pool: 45 # Concurrency from sidekiq.yml
-  variables:
-    lock_timeout: 20s
-<% elsif $0.include?('rake') %>
-  connect_timeout: 5
-  connect_timeout: 5
-  variables:
-    lock_timeout: 10s
-<% else %>
   pool: <%= (ENV['DB_POOL'] || ENV['RAILS_MAX_THREADS'] || 40) * 1.2 %>
   connect_timeout: 5
   checkout_timeout: 2
@@ -25,11 +13,10 @@ default: &default
   variables:
     lock_timeout: 6s
     statement_timeout: 15s
-<% end %>
 
 development:
   <<: *default
-  database: dummy_grapql_fancy_loader
+  database: dummy_graphql_fancy_loader
 
 test:
   <<: *default
