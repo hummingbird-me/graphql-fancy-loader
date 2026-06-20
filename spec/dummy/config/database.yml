@@ -1,18 +1,14 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  prepared_statements: false
-  advisory_locks: false
+  host: <%= ENV.fetch('PGHOST', 'localhost') %>
+  port: <%= ENV.fetch('PGPORT', 5432) %>
+  username: <%= ENV.fetch('PGUSER', 'postgres') %>
+  password: <%= ENV.fetch('PGPASSWORD', '') %>
+  pool: <%= ENV.fetch('RAILS_MAX_THREADS', 5) %>
 <% if ENV.include?('DATABASE_URL') %>
   url: <%= ENV.fetch('DATABASE_URL') %>
 <% end %>
-  pool: <%= (ENV['DB_POOL'] || ENV['RAILS_MAX_THREADS'] || 40) * 1.2 %>
-  connect_timeout: 5
-  checkout_timeout: 2
-  reaping_frequency: 30
-  variables:
-    lock_timeout: 6s
-    statement_timeout: 15s
 
 development:
   <<: *default
@@ -21,3 +17,4 @@ development:
 test:
   <<: *default
   database: dummy_graphql_fancy_loader_test
+
