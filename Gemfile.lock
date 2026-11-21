@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    graphql-fancy_loader (0.1.5)
+    graphql-fancy_loader (0.1.6)
       activesupport (>= 5.0, < 8.2)
       graphql (>= 1.3, < 3)
       graphql-batch (>= 0.4.3, < 1)
@@ -388,7 +388,7 @@ CHECKSUMS
   globalid (1.4.0) sha256=037f12fbf1d9d7a014d501c2d5c77356fd4ddd96d7a7991d6700bba96706f427
   graphql (2.6.16) sha256=585d81937b3946a5da212d486de277eea48c4954ac29d3fbfa33581ee722c246
   graphql-batch (0.6.1) sha256=dcd7ca2423d3cd2d02dad5ec8f2499e932b1c3a6280a81c9da0c5930b7f0054d
-  graphql-fancy_loader (0.1.5)
+  graphql-fancy_loader (0.1.6)
   i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
   io-console (0.9.5) sha256=83dd9bbf4c4680416629245b39cd4212eb5f4d9a4ea91804870c1f6b846414d5
   irb (1.19.0) sha256=55ee56acbdd6c9fe06a2e6909f46a24e5c41f45f16906bab04e8049cf46f1d27
