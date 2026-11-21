@@ -34,6 +34,6 @@ jobs:
         run: bundle exec rake release
 
       - name: Create a Github Release
-        run: gh release create $(ruby -r './lib/graphql/fancy_loader/version' -e "puts GraphQL::FancyLoader::VERSION") --target releasing
+        run: gh release create $(ruby -r './lib/graphql/fancy_loader/version' -e "puts GraphQL::FancyLoader::VERSION") --target "$GITHUB_SHA"
         env:
           GITHUB_TOKEN: ${{ secrets.SENKO_SAN_KEY }}
