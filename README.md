@@ -200,6 +200,16 @@ After checking out the repo, run `bin/setup` to install dependencies. Then, run 
 the tests. You can also run `bin/console` for an interactive prompt that will allow you to
 experiment.
 
+The tests need a Postgres database, which you can point them at by setting `DATABASE_URL`. They run
+against the newest version of Rails we support (currently 8.1) by default. To run them against an
+older version, use one of the Gemfiles in `gemfiles/`:
+
+```
+$ export BUNDLE_GEMFILE=gemfiles/rails_7.0.gemfile
+$ bundle install
+$ bundle exec rspec
+```
+
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new
 version, update the version number in `version.rb`, and then run `bundle exec rake release`, which
 will create a git tag for the version, push git commits and tags, and push the `.gem` file to
