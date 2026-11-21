@@ -239,4 +239,43 @@ RSpec.describe GraphQL::FancyLoader::QueryGenerator do
 
     expect(query).to match('I am the bone of my sword')
   end
+
+  context 'with middleware configured' do
+    around do |example|
+      original = GraphQL::FancyLoader.middleware
+      example.run
+    ensure
+      GraphQL::FancyLoader.middleware = original
+    end
+
+    it 'should pass the base query through each middleware in order' do
+      user = create(:user)
+      posts = create_list(:post, 4, user: user).sort_by(&:id)
+      calls = []
+
+      GraphQL::FancyLoader.configure do |config|
+        config.middleware = [
+          lambda { |model:, query:, context:|
+            calls << [model, context]
+            query.where(Post.arel_table[:id].gt(posts[0].id))
+          },
+          ->(query:, **) { query.where(Post.arel_table[:id].lt(posts[3].id)) }
+        ]
+      end
+
+      results = described_class.new(
+        model: Post,
+        find_by: :user_id,
+        sort: [{
+          column: -> { Post.arel_table[:id] },
+          direction: :asc
+        }],
+        keys: [user.id],
+        context: { current_user: user }
+      ).query
+
+      expect(results.to_a).to eq(posts[1..2])
+      expect(calls).to eq([[Post, { current_user: user }]])
+    end
+  end
 end
