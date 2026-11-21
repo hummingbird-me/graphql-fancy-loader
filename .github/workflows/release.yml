@@ -11,6 +11,9 @@ jobs:
   release:
     name: Relase to Rubygems
     runs-on: ubuntu-latest
+    permissions:
+      # Needed to create the GitHub release and its tag
+      contents: write
 
     steps:
       - name: Checkout Repository
@@ -36,4 +39,4 @@ jobs:
       - name: Create a Github Release
         run: gh release create $(ruby -r './lib/graphql/fancy_loader/version' -e "puts GraphQL::FancyLoader::VERSION") --target "$GITHUB_SHA"
         env:
-          GITHUB_TOKEN: ${{ secrets.SENKO_SAN_KEY }}
+          GH_TOKEN: ${{ github.token }}
