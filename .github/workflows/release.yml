@@ -6,6 +6,14 @@ on:
       - main
     paths:
       - "lib/graphql/fancy_loader/version.rb"
+  # Run this by hand to finish a release which failed partway through. Each step skips itself if
+  # it has already been done, so nothing is published twice.
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Commit to tag the GitHub release at (defaults to the commit being run)
+        required: false
+        type: string
 
 jobs:
   release:
@@ -25,6 +33,11 @@ jobs:
           ruby-version: '3.4'
           bundler-cache: true
 
+      - name: Read the version
+        run: |
+          version=$(ruby -r ./lib/graphql/fancy_loader/version -e 'puts GraphQL::FancyLoader::VERSION')
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+
       - name: Authenticate with Rubygems
         run: |
           mkdir -p $HOME/.gem/
@@ -34,9 +47,20 @@ jobs:
           RUBYGEMS_CREDENTIALS: ${{ secrets.SENKO_SAN_RUBYGEMS_CREDENTIALS }}
 
       - name: Publish Gem on Rubygems
-        run: bundle exec rake release
+        run: |
+          if curl --silent --fail --max-time 30 --output /dev/null "https://rubygems.org/api/v2/rubygems/graphql-fancy_loader/versions/$VERSION.json"; then
+            echo "graphql-fancy_loader $VERSION is already on RubyGems, so there is nothing to push"
+          else
+            bundle exec rake release
+          fi
 
       - name: Create a Github Release
-        run: gh release create $(ruby -r './lib/graphql/fancy_loader/version' -e "puts GraphQL::FancyLoader::VERSION") --target "$GITHUB_SHA"
+        run: |
+          if gh release view "$VERSION" > /dev/null 2>&1; then
+            echo "The $VERSION release already exists, so there is nothing to create"
+          else
+            gh release create "$VERSION" --title "$VERSION" --generate-notes --target "${TARGET:-$GITHUB_SHA}"
+          fi
         env:
           GH_TOKEN: ${{ github.token }}
+          TARGET: ${{ inputs.target }}
