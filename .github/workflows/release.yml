@@ -9,11 +9,6 @@ on:
   # Run this by hand to finish a release which failed partway through. Each step skips itself if
   # it has already been done, so nothing is published twice.
   workflow_dispatch:
-    inputs:
-      target:
-        description: Commit to tag the GitHub release at (defaults to the commit being run)
-        required: false
-        type: string
 
 jobs:
   release:
@@ -54,13 +49,14 @@ jobs:
             bundle exec rake release
           fi
 
+      # The release is always tagged at the commit being run. This token is not allowed to tag an
+      # older commit if the workflow files have changed since then.
       - name: Create a Github Release
         run: |
           if gh release view "$VERSION" > /dev/null 2>&1; then
             echo "The $VERSION release already exists, so there is nothing to create"
           else
-            gh release create "$VERSION" --title "$VERSION" --generate-notes --target "${TARGET:-$GITHUB_SHA}"
+            gh release create "$VERSION" --title "$VERSION" --generate-notes --target "$GITHUB_SHA"
           fi
         env:
           GH_TOKEN: ${{ github.token }}
-          TARGET: ${{ inputs.target }}
